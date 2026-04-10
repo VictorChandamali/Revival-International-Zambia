@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revival Hub Zambia</title>
+<link rel="icon" href="images/logo/rhiz.png" type="image/png">
+<link rel="shortcut icon" href="images/logo/rhiz.png" type="image/png">
+<link rel="apple-touch-icon" href="images/logo/rhiz.png">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  color: white;
+}
+
+:root{
+  --primary-clr:#9c0808;
+}
+
+.btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #f9fafb;
+  color: #111;
+
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* animated background */
+.btn::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--primary-clr); /* emerald */
+  border-radius: 50%;
+  left: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.7s ease;
+  z-index: -1;
+}
+
+/* hover effect */
+.btn:hover::before {
+  left: 0;
+  transform: translateY(-50%) scale(2);
+}
+
+.btn:hover {
+  color: #fff;
+}
+
+/* ICON */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: transparent;
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  fill: #111;
+}
+
+/* icon hover */
+.btn:hover .icon svg {
+  transform: rotate(90deg);
+  background: #fff;
+  border: none;
+}
+
+/* NAVBAR */
+.navbar {
+  position: absolute;
+  width: 100%;
+  padding: 30px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.logo {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
+.navbar h2 {
+  font-size: 20px;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+}
+
+.navbar a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--primary-clr);
+  transition: width 0.3s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.7s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* DARK OVERLAY */
+.slide::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  top: 0;
+  left: 0;
+}
+
+/* CONTENT */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* BUTTONS */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: var(--primary-clr);
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: black;
+}
+
+/* DOTS */
+.dots {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 5px;
+  display: inline-block;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: var(--primary-clr);
+}
+
+/* BACKGROUNDS */
+.slide:nth-child(1) {
+  background: url('images/hero/pastorAthony.jpg') center/cover;
+}
+
+.slide:nth-child(2) {
+  background: url('images/hero/hero2.jpg') center/cover;
+}
+
+.slide:nth-child(3) {
+  background: url('images/hero/hero3.jpg') center/cover;
+}
+
+/* SCROLL DOWN INDICATOR */
+.scroll-down {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 15;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 54px;
+  border-radius: 28px;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.04);
+  animation: bob 2s ease-in-out infinite;
+}
+
+.scroll-down .arrow {
+  width: 18px;
+  height: 18px;
+  fill: white;
+  display: block;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* LOADER */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--primary-clr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  transition: opacity 360ms ease, visibility 360ms ease;
+  opacity: 1;
+  visibility: visible;
+}
+.loader-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-inner { position: relative; width: 160px; height: 160px; display:flex; align-items:center; justify-content:center; }
+.loader-logo { width: 88px; height: auto; border-radius: 6px; z-index: 2; box-shadow: 0 6px 22px rgba(0,0,0,0.35); }
+.loader-ring { position: absolute; width: 130px; height: 130px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.28); box-sizing: border-box; animation: loader-rotate 1.6s linear infinite; }
+@keyframes loader-rotate { to { transform: rotate(360deg); } }
+
+/* slightly dim page when loader visible */
+body.loading { overflow: hidden; }
+
+/* RESPONSIVE HERO */
+.content h1 {
+  font-size: clamp(1.8rem, 4vw + 0.8rem, 3.5rem);
+}
+.content p {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+}
+.buttons { gap: 12px; flex-wrap: wrap; }
+
+/* HAMBURGER + MOBILE MENU */
+.hamburger { display: none; }
+.mobile-nav { display: none; }
+
+/* small screens */
+@media (max-width: 900px) {
+  .navbar { padding: 45px 20px; }
+  .navbar { border-bottom: none; }
+  .logo { left: 16px; }
+  .navbar ul { display: none; }
+  .hamburger { display: block; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 44px; height: 36px; border: none; background: transparent; z-index: 30; }
+  .hamburger span { display: block; height: 3px; background: white; margin: 6px 0; border-radius: 3px; transition: transform .35s ease, opacity .25s ease; width: 35px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 84%;
+    max-width: 420px;
+    background:var(--primary-clr);
+    align-items: center;
+    justify-content: center;
+    transform: translateX(100%);
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1);
+    z-index: 28;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
+  .mobile-nav.open { transform: translateX(0); animation: menu-bounce 520ms cubic-bezier(.2,.9,.2,1); }
+  .mobile-nav ul { list-style: none; padding: 0; margin: 0; text-align: left; width: 100%; }
+  .mobile-nav li { margin: 18px 0; opacity: 0; transform: translateX(36px); }
+  .mobile-nav.open li { opacity: 1; transform: translateX(0); }
+  .mobile-nav li a { color: white; font-size: 1.5rem; text-decoration: none; display: inline-block; padding: 10px 18px; border-radius: 8px; }
+  .mobile-nav li a:hover { background: rgba(255,255,255,0.03); transform: translateX(8px); transition: transform 220ms ease; }
+
+  .mobile-close { position: absolute; right: 14px; top: 12px; background: transparent; border: none; color: white; font-size: 26px; line-height: 1; padding: 8px; cursor: pointer; z-index: 30; }
+
+  /* staggered delays for nicer one-by-one appearance */
+  .mobile-nav.open li:nth-child(1) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 40ms; }
+  .mobile-nav.open li:nth-child(2) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 110ms; }
+  .mobile-nav.open li:nth-child(3) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 180ms; }
+  .mobile-nav.open li:nth-child(4) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 250ms; }
+  .mobile-nav.open li:nth-child(5) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 320ms; }
+
+  /* bounce keyframe for menu entrance */
+  @keyframes menu-bounce {
+    0% { transform: translateX(100%); }
+    60% { transform: translateX(-6%); }
+    80% { transform: translateX(3%); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes hamburger-bounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  .hamburger.open { animation: hamburger-bounce 420ms ease; }
+
+  /* prevent background scrolling when menu open */
+  body.no-scroll { overflow: hidden; height: 100%; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOADER OVERLAY -->
+<div class="loader-overlay" aria-hidden="false">
+  <div class="loader-inner">
+    <img class="loader-logo" src="images/logo/rhiz.png" alt="logo">
+    <div class="loader-ring" aria-hidden="true"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+ 
+<div class="navbar">
+  <div class="logo">
+    <img src="images/logo/rhiz.png" width="100" alt="">
+  </div>
+   <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+     <span></span>
+     <span></span>
+     <span></span>
+   </button>
+  
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Programs</a></li>
+    <li><a href="#">Gallery</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Mobile overlay menu -->
+<nav class="mobile-nav" aria-hidden="true">
+  <button class="mobile-close" aria-label="Close menu">✕</button>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Programs</a></li>
+    <li><a href="#">Gallery</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="slides">
+
+    <div class="slide">
+      <div class="content">
+        <h1>SONS ARE BIRTHED THROUGH THE GROAN</h1>
+        <p>A man that is weak on his altar is weak everywhere else.</p>
+        <div class="buttons">
+        <button class="btn">
+  About Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+          <button class="btn">
+  Contact Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="content">
+        <h1>RAISING A GENERATION OF FIRE</h1>
+        <p>Equipping believers to walk in power, truth and revival.</p>
+        <div class="buttons">
+           <button class="btn">
+  About Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+          <button class="btn">
+  Contact Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="content">
+        <h1>WELCOME TO REVIVAL HUB ZAMBIA</h1>
+        <p>A place of encounter, transformation and purpose.</p>
+        <div class="buttons">
+          <button class="btn">
+  About Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+          <button class="btn">
+  Contact Us
+  <span class="icon">
+    <svg viewBox="0 0 16 19">
+      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+    </svg>
+  </span>
+</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DOTS -->
+  <div class="dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+  
+  <div class="scroll-down" role="button" aria-label="Scroll down" tabindex="0">
+    <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 10l5 5 5-5z"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelector('.slides');
+const dots = document.querySelectorAll('.dot');
+
+let index = 0;
+
+function showSlide(i) {
+  index = i;
+  slides.style.transform = `translateX(-${index * 100}%)`;
+
+  dots.forEach(dot => dot.classList.remove('active'));
+  dots[index].classList.add('active');
+}
+
+function autoSlide() {
+  index++;
+  if (index >= dots.length) index = 0;
+  showSlide(index);
+}
+
+let interval = setInterval(autoSlide, 4000);
+
+// DOT CLICK
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => showSlide(i));
+});
+
+// PAUSE ON HOVER
+document.querySelector('.hero').addEventListener('mouseover', () => {
+  clearInterval(interval);
+});
+
+document.querySelector('.hero').addEventListener('mouseout', () => {
+  interval = setInterval(autoSlide, 4000);
+});
+
+// Scroll-down button: scroll one viewport height on click or Enter/Space
+const scrollBtn = document.querySelector('.scroll-down');
+if (scrollBtn) {
+  const doScroll = () => window.scrollBy({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+  scrollBtn.addEventListener('click', doScroll);
+  scrollBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') doScroll();
+  });
+}
+
+// Hamburger / mobile nav
+const hamburger = document.querySelector('.hamburger');
+const mobileNav = document.querySelector('.mobile-nav');
+const mobileLinks = mobileNav ? mobileNav.querySelectorAll('li') : [];
+if (hamburger && mobileNav) {
+  const mobileClose = mobileNav.querySelector('.mobile-close');
+  const closeMenu = () => {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('no-scroll');
+    // reset delays
+    mobileLinks.forEach(li => li.style.transitionDelay = '0ms');
+  };
+
+  const openMenu = () => {
+    mobileNav.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
+    mobileLinks.forEach((li, i) => li.style.transitionDelay = `${40 + i * 70}ms`);
+  };
+
+  const toggle = () => (mobileNav.classList.contains('open') ? closeMenu() : openMenu());
+
+  hamburger.addEventListener('click', toggle);
+  hamburger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') toggle();
+  });
+
+  // close when a mobile link is clicked
+  mobileLinks.forEach(li => li.addEventListener('click', closeMenu));
+
+  // close via close button
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+
+  // close when clicking on overlay background
+  mobileNav.addEventListener('click', (e) => {
+    if (e.target === mobileNav) closeMenu();
+  });
+
+  // close on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+}
+
+  /* Loader behavior: show on navigation and while page loads */
+  const loaderOverlay = document.querySelector('.loader-overlay');
+  const showLoader = () => {
+    if (!loaderOverlay) return;
+    loaderOverlay.classList.remove('hidden');
+    document.body.classList.add('loading');
+  };
+  const hideLoader = () => {
+    if (!loaderOverlay) return;
+    loaderOverlay.classList.add('hidden');
+    document.body.classList.remove('loading');
+  };
+
+  // hide after initial load
+  window.addEventListener('load', () => setTimeout(hideLoader, 350));
+
+  // show on link navigation (non-hash, same-origin links)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    const target = a.getAttribute('target');
+    if (!href) return;
+    if (href.startsWith('#')) return;
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    if (target === '_blank' || a.hasAttribute('download')) return;
+
+    // allow same-page scroll anchors to proceed
+    if (href.startsWith(window.location.origin) || href.startsWith('/')) {
+      e.preventDefault();
+      showLoader();
+      setTimeout(() => { window.location.href = href; }, 420);
+    }
+  });
+
+  // attempt to show loader on beforeunload/navigation where supported
+  window.addEventListener('beforeunload', () => showLoader());
+</script>
+
+</body>
+</html>
