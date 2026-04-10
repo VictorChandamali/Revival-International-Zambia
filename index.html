@@ -339,10 +339,18 @@ body.loading { overflow: hidden; }
   .logo { left: 16px; }
   .navbar ul { display: none; }
   .hamburger { display: block; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 44px; height: 36px; border: none; background: transparent; z-index: 30; }
-  .hamburger span { display: block; height: 3px; background: white; margin: 6px 0; border-radius: 3px; transition: transform .35s ease, opacity .25s ease; width: 35px; }
+  .hamburger { display: block; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; padding: 6px; border: none; background: var(--primary-clr); border-radius: 12px; display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 22px rgba(0,0,0,0.25); transition: transform .18s ease; z-index: 30; }
+  .hamburger span { display: block; height: 2.6px; background: #fff; margin: 4px 0; border-radius: 2px; transition: transform .35s ease, opacity .25s ease, width .2s ease; width: 20px; }
   .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
   .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+  .hamburger.open { transform: scale(0.98); }
+
+  /* compact buttons side-by-side on mobile */
+  .buttons { gap: 10px; flex-wrap: nowrap; justify-content: center; }
+  .buttons .btn { padding: 8px 14px; font-size: 0.95rem; border-radius: 20px; }
+  .buttons .btn .icon svg { width: 20px; height: 20px; padding: 4px; }
 
   .mobile-nav {
     display: flex;
@@ -401,10 +409,11 @@ body.loading { overflow: hidden; }
   .content { padding: 0 18px; }
 
   .content h1 {
-    font-size: clamp(1.6rem, 6vw, 2.6rem);
-    line-height: 1.12;
-    margin-bottom: 0.6rem;
+    font-size: clamp(2rem, 7.5vw, 3rem);
+    line-height: 1.06;
+    margin-bottom: 0.45rem;
     letter-spacing: 0.2px;
+    font-weight: 700;
     -webkit-font-smoothing: antialiased;
   }
 
