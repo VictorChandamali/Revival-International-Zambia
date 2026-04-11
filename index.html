@@ -8,6 +8,8 @@
 <link rel="icon" href="images/logo/rhiz.png" type="image/png">
 <link rel="shortcut icon" href="images/logo/rhiz.png" type="image/png">
 <link rel="apple-touch-icon" href="images/logo/rhiz.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <style>
 * {
@@ -25,6 +27,10 @@ body {
   --primary-clr:#9c0808;
 }
 
+section {
+  padding: 100px 10%;
+}
+
 .btn {
   position: relative;
   display: flex;
@@ -35,11 +41,12 @@ body {
   font-weight: 600;
   background: #f9fafb;
   color: #111;
-
+  border: none;
   border-radius: 50px;
   cursor: pointer;
   overflow: hidden;
   z-index: 1;
+  text-decoration: none;
 }
 
 /* animated background */
@@ -48,7 +55,7 @@ body {
   position: absolute;
   width: 100%;
   aspect-ratio: 1/1;
-  background: var(--primary-clr); /* emerald */
+  background: var(--primary-clr);
   border-radius: 50%;
   left: -100%;
   top: 50%;
@@ -57,7 +64,6 @@ body {
   z-index: -1;
 }
 
-/* hover effect */
 .btn:hover::before {
   left: 0;
   transform: translateY(-50%) scale(2);
@@ -86,7 +92,6 @@ body {
   fill: #111;
 }
 
-/* icon hover */
 .btn:hover .icon svg {
   transform: rotate(90deg);
   background: #fff;
@@ -111,8 +116,6 @@ body {
   top: 50%;
   transform: translateY(-50%);
 }
-
-
 
 .navbar h2 {
   font-size: 20px;
@@ -165,7 +168,6 @@ body {
   text-align: center;
 }
 
-/* DARK OVERLAY */
 .slide::before {
   content: "";
   position: absolute;
@@ -176,7 +178,6 @@ body {
   left: 0;
 }
 
-/* CONTENT */
 .content {
   position: relative;
   z-index: 2;
@@ -184,45 +185,23 @@ body {
 }
 
 .content h1 {
-  font-size: 3.5rem;
+  font-size: clamp(1.8rem, 4vw + 0.8rem, 3.5rem);
   margin-bottom: 20px;
 }
 
 .content p {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
   margin-bottom: 30px;
-}
-
-/* improve paragraph contrast and weight for readability */
-.content p {
   color: rgba(255,255,255,0.95);
   font-weight: 400;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-/* BUTTONS */
 .buttons {
   display: flex;
   justify-content: center;
   gap: 20px;
-}
-
-.btn {
-  padding: 12px 25px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.btn-primary {
-  background: var(--primary-clr);
-  color: white;
-}
-
-.btn-secondary {
-  background: white;
-  color: black;
+  flex-wrap: wrap;
 }
 
 /* DOTS */
@@ -251,16 +230,14 @@ body {
 .slide:nth-child(1) {
   background: url('images/hero/pastorAthony.jpg') center/cover;
 }
-
 .slide:nth-child(2) {
   background: url('images/hero/hero2.jpg') center/cover;
 }
-
 .slide:nth-child(3) {
   background: url('images/hero/hero3.jpg') center/cover;
 }
 
-/* SCROLL DOWN INDICATOR */
+/* SCROLL DOWN */
 .scroll-down {
   position: absolute;
   bottom: 24px;
@@ -305,127 +282,227 @@ body {
   visibility: visible;
 }
 .loader-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-inner { position: relative; width: 180px; height: 180px; display:flex; align-items:center; justify-content:center; background: transparent; }
-.loader-logo { width: 88px; height: auto; z-index: 2; background: transparent; box-shadow: none; border-radius: 0; }
-.loader-ring { position: absolute; width: 150px; height: 150px; border-radius: 50%; box-sizing: border-box; pointer-events: none; z-index: 1;
+.loader-inner { position: relative; width: 180px; height: 180px; display:flex; align-items:center; justify-content:center; }
+.loader-logo { width: 88px; height: auto; z-index: 2; }
+.loader-ring {
+  position: absolute; width: 150px; height: 150px; border-radius: 50%;
   border: 3px solid rgba(255,255,255,0.12);
   border-top-color: rgba(255,255,255,0.95);
   border-right-color: rgba(255,255,255,0.45);
-  border-bottom-color: rgba(255,255,255,0.12);
-  border-left-color: rgba(255,255,255,0.12);
   animation: loader-rotate 1.2s linear infinite;
 }
 @keyframes loader-rotate { to { transform: rotate(360deg); } }
-
-/* slightly dim page when loader visible */
 body.loading { overflow: hidden; }
 
-/* RESPONSIVE HERO */
-.content h1 {
-  font-size: clamp(1.8rem, 4vw + 0.8rem, 3.5rem);
+/* ABOUT */
+.about {
+  padding: 100px 10%;
+  background: #fff;
+  color: #111;
+  overflow: hidden;
 }
-.content p {
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
+
+.about-container {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
 }
-.buttons { gap: 12px; flex-wrap: wrap; }
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h2 {
+  color: var(--primary-clr);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.about-text h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.about-text h1 span {
+  color: var(--primary-clr);
+}
+
+/* Sentence-by-sentence reveal */
+.about-text .reveal-line {
+  display: block;
+  overflow: hidden;
+}
+
+.about-text .reveal-line-inner {
+  display: block;
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.about-text p {
+  margin-bottom: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+.about-text .intro {
+  font-weight: 600;
+  color: #111;
+}
+
+/* Expandable text for Learn More */
+.about-extra {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: none; /* handled by GSAP */
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.about .btn {
+  margin-top: 20px;
+}
+
+/* About button sizing */
+.about .btn {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 22px;
+}
+
+/* IMAGE with sweep */
+.about-image {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+/* sweep overlay */
+.about-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+  transform: skewX(-15deg);
+  pointer-events: none;
+  transition: none;
+}
+
+.about-image:hover img {
+  transform: scale(1.04);
+}
+
+/* CUSTOM CURSOR */
+.cursor-ball {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary-clr);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  /* GSAP will position it */
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-clr);
+  pointer-events: none;
+  z-index: 9998;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  opacity: 0.55;
+  will-change: transform;
+}
 
 /* HAMBURGER + MOBILE MENU */
 .hamburger { display: none; }
 .mobile-nav { display: none; }
 
-/* small screens */
 @media (max-width: 900px) {
-  .navbar { padding: 45px 20px; }
-  .navbar { border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .navbar { padding: 45px 20px; border-bottom: 1px solid rgba(255,255,255,0.2); }
   .logo { left: 16px; }
   .navbar ul { display: none; }
-  .hamburger { display: block; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 44px; height: 36px; border: none; background: transparent; z-index: 30; }
-  .hamburger { display: block; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; padding: 6px; border: none; background: var(--primary-clr); border-radius: 12px; display:flex; flex-direction: column; align-items:center; justify-content:center; box-shadow: 0 8px 22px rgba(0,0,0,0.25); transition: transform .18s ease; z-index: 30; }
-  .hamburger span { display: block; width: 22px; height: 2.8px; background: #fff; margin: 4px 0; border-radius: 2px; transition: transform .35s ease, opacity .25s ease, width .2s ease; }
+  .hamburger {
+    display: flex; flex-direction: column; align-items:center; justify-content:center;
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; padding: 6px;
+    border: none; background: var(--primary-clr); border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+    transition: transform .18s ease; z-index: 30; cursor: pointer;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2.8px;
+    background: #fff; margin: 2px 0; border-radius: 2px;
+    transition: transform .35s ease, opacity .25s ease;
+  }
   .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
   .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-  .hamburger.open { transform: scale(0.98); }
-
-  /* compact buttons side-by-side on mobile */
   .buttons { gap: 10px; flex-wrap: nowrap; justify-content: center; }
   .buttons .btn { padding: 8px 14px; font-size: 0.95rem; border-radius: 20px; }
   .buttons .btn .icon svg { width: 20px; height: 20px; padding: 4px; }
 
   .mobile-nav {
-    display: flex;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 84%;
-    max-width: 420px;
-    background:var(--primary-clr);
-    align-items: center;
-    justify-content: center;
+    display: flex; position: fixed; top: 0; right: 0; bottom: 0;
+    width: 84%; max-width: 420px;
+    background: var(--primary-clr);
+    align-items: center; justify-content: center;
     transform: translateX(100%);
     transition: transform 420ms cubic-bezier(.2,.9,.2,1);
-    z-index: 28;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    z-index: 28; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
   }
-  .mobile-nav.open { transform: translateX(0); animation: menu-bounce 520ms cubic-bezier(.2,.9,.2,1); }
+  .mobile-nav.open { transform: translateX(0); }
   .mobile-nav ul { list-style: none; padding: 0; margin: 0; text-align: left; width: 100%; }
   .mobile-nav li { margin: 18px 0; opacity: 0; transform: translateX(36px); }
   .mobile-nav.open li { opacity: 1; transform: translateX(0); }
   .mobile-nav li a { color: white; font-size: 1.5rem; text-decoration: none; display: inline-block; padding: 10px 18px; border-radius: 8px; }
-  .mobile-nav li a:hover { background: rgba(255,255,255,0.03); transform: translateX(8px); transition: transform 220ms ease; }
+  .mobile-close { position: absolute; right: 14px; top: 12px; background: transparent; border: none; color: white; font-size: 26px; padding: 8px; cursor: pointer; z-index: 30; }
 
-  .mobile-close { position: absolute; right: 14px; top: 12px; background: transparent; border: none; color: white; font-size: 26px; line-height: 1; padding: 8px; cursor: pointer; z-index: 30; }
+  .mobile-nav.open li:nth-child(1) { transition: transform 320ms ease 40ms, opacity 320ms ease 40ms; }
+  .mobile-nav.open li:nth-child(2) { transition: transform 320ms ease 110ms, opacity 320ms ease 110ms; }
+  .mobile-nav.open li:nth-child(3) { transition: transform 320ms ease 180ms, opacity 320ms ease 180ms; }
+  .mobile-nav.open li:nth-child(4) { transition: transform 320ms ease 250ms, opacity 320ms ease 250ms; }
+  .mobile-nav.open li:nth-child(5) { transition: transform 320ms ease 320ms, opacity 320ms ease 320ms; }
 
-  /* staggered delays for nicer one-by-one appearance */
-  .mobile-nav.open li:nth-child(1) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 40ms; }
-  .mobile-nav.open li:nth-child(2) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 110ms; }
-  .mobile-nav.open li:nth-child(3) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 180ms; }
-  .mobile-nav.open li:nth-child(4) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 250ms; }
-  .mobile-nav.open li:nth-child(5) { transition: transform 320ms ease, opacity 320ms ease; transition-delay: 320ms; }
-
-  /* bounce keyframe for menu entrance */
-  @keyframes menu-bounce {
-    0% { transform: translateX(100%); }
-    60% { transform: translateX(-6%); }
-    80% { transform: translateX(3%); }
-    100% { transform: translateX(0); }
-  }
-
-  @keyframes hamburger-bounce {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-  }
-
-  .hamburger.open { animation: hamburger-bounce 420ms ease; }
-
-  /* prevent background scrolling when menu open */
   body.no-scroll { overflow: hidden; height: 100%; }
-}
 
-/* Mobile text: responsive sizes and improved spacing (no animation) */
-@media (max-width: 900px) {
   .content { padding: 0 18px; }
+  .content h1 { font-size: clamp(2rem, 7.5vw, 3rem); line-height: 1.06; }
+  .content p { font-size: clamp(0.95rem, 3.8vw, 1.1rem); margin-top: 10px; line-height: 1.45; }
 
-  .content h1 {
-    font-size: clamp(2rem, 7.5vw, 3rem);
-    line-height: 1.06;
-    margin-bottom: 0.45rem;
-    letter-spacing: 0.2px;
-    font-weight: 700;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .content p {
-    font-size: clamp(0.95rem, 3.8vw, 1.1rem);
-    margin-top: 10px;
-    line-height: 1.45;
-  }
-
+  .about-container { flex-direction: column; text-align: center; }
+  .about-image img { max-width: 100%; }
 }
-
 </style>
 </head>
 
@@ -440,17 +517,13 @@ body.loading { overflow: hidden; }
 </div>
 
 <!-- NAV -->
- 
 <div class="navbar">
   <div class="logo">
     <img src="images/logo/rhiz.png" width="100" alt="">
   </div>
-   <button class="hamburger" aria-label="Open menu" aria-expanded="false">
-     <span></span>
-     <span></span>
-     <span></span>
-   </button>
-  
+  <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
     <li><a href="#">Home</a></li>
     <li><a href="#">About</a></li>
@@ -481,22 +554,8 @@ body.loading { overflow: hidden; }
         <h1>SONS ARE BIRTHED THROUGH THE GROAN</h1>
         <p>A man that is weak on his altar is weak everywhere else.</p>
         <div class="buttons">
-        <button class="btn">
-  About Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
-          <button class="btn">
-  Contact Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
+          <button class="btn">About Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
+          <button class="btn">Contact Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
         </div>
       </div>
     </div>
@@ -506,22 +565,8 @@ body.loading { overflow: hidden; }
         <h1>RAISING A GENERATION OF FIRE</h1>
         <p>Equipping believers to walk in power, truth and revival.</p>
         <div class="buttons">
-           <button class="btn">
-  About Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
-          <button class="btn">
-  Contact Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
+          <button class="btn">About Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
+          <button class="btn">Contact Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
         </div>
       </div>
     </div>
@@ -531,35 +576,20 @@ body.loading { overflow: hidden; }
         <h1>WELCOME TO REVIVAL HUB ZAMBIA</h1>
         <p>A place of encounter, transformation and purpose.</p>
         <div class="buttons">
-          <button class="btn">
-  About Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
-          <button class="btn">
-  Contact Us
-  <span class="icon">
-    <svg viewBox="0 0 16 19">
-      <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
-    </svg>
-  </span>
-</button>
+          <button class="btn">About Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
+          <button class="btn">Contact Us<span class="icon"><svg viewBox="0 0 16 19"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/></svg></span></button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- DOTS -->
   <div class="dots">
     <span class="dot active"></span>
     <span class="dot"></span>
     <span class="dot"></span>
   </div>
-  
+
   <div class="scroll-down" role="button" aria-label="Scroll down" tabindex="0">
     <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M7 10l5 5 5-5z"/>
@@ -567,53 +597,118 @@ body.loading { overflow: hidden; }
   </div>
 </div>
 
-<script>
-const slides = document.querySelector('.slides');
-const dots = document.querySelectorAll('.dot');
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-container">
 
-let index = 0;
+    <div class="about-text">
+      <!-- Each element wrapped for reveal animation -->
+      <div class="reveal-line"><h2 class="reveal-line-inner">About Revival Hub</h2></div>
+
+      <div class="reveal-line" style="overflow:visible;">
+        <h1 class="reveal-line-inner">
+          Raising a Generation Rooted in <span>Prayer</span> and <span>Truth</span>
+        </h1>
+      </div>
+
+      <div class="reveal-line">
+        <p class="reveal-line-inner intro">
+          Revival Hub Zambia is a Christ-centered ministry committed to building believers with a strong altar life and a deep relationship with God.
+        </p>
+      </div>
+
+      <div class="reveal-line">
+        <p class="reveal-line-inner">
+          Through teachings, gatherings, and discipleship, we equip individuals to walk in purpose, live transformed lives, and influence their world through Christ.
+        </p>
+      </div>
+
+      <!-- Hidden extra text, revealed on Read More click (split into sentences for per-sentence reveal) -->
+      <div class="about-extra" id="about-extra">
+        <div class="reveal-line"><p class="reveal-line-inner">We believe that every generation has a divine mandate — and that mandate is unlocked through prayer, the Word, and intentional community.</p></div>
+        <div class="reveal-line"><p class="reveal-line-inner">Revival Hub Zambia exists to be a furnace where those flames are ignited, sustained, and sent out to the nations.</p></div>
+        <div class="reveal-line"><p class="reveal-line-inner">Our gatherings are more than meetings — they are encounters that redefine who you are in God.</p></div>
+      </div>
+
+      <div class="reveal-line">
+        <a href="#" class="btn reveal-line-inner" id="learn-more-btn">
+          <span class="btn-label">Read More</span>
+          <span class="icon">
+            <svg viewBox="0 0 16 19">
+              <path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="about-image">
+      <img src="images/hero/about/about1.jpg" alt="Revival Hub">
+    </div>
+
+  </div>
+</section>
+
+<!-- CURSOR -->
+<div class="cursor-ball"></div>
+<div class="cursor-ring"></div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ─── LOADER ─────────────────────────────────────────────── */
+const loaderOverlay = document.querySelector('.loader-overlay');
+const hideLoader = () => {
+  loaderOverlay.classList.add('hidden');
+  document.body.classList.remove('loading');
+};
+const showLoader = () => {
+  loaderOverlay.classList.remove('hidden');
+  document.body.classList.add('loading');
+};
+window.addEventListener('load', () => setTimeout(hideLoader, 350));
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+  if (a.getAttribute('target') === '_blank' || a.hasAttribute('download')) return;
+  if (href.startsWith(window.location.origin) || href.startsWith('/')) {
+    e.preventDefault(); showLoader();
+    setTimeout(() => { window.location.href = href; }, 420);
+  }
+});
+window.addEventListener('beforeunload', showLoader);
+
+/* ─── HERO SLIDER ────────────────────────────────────────── */
+const slidesEl = document.querySelector('.slides');
+const dots = document.querySelectorAll('.dot');
+let slideIndex = 0;
 
 function showSlide(i) {
-  index = i;
-  slides.style.transform = `translateX(-${index * 100}%)`;
-
-  dots.forEach(dot => dot.classList.remove('active'));
-  dots[index].classList.add('active');
+  slideIndex = i;
+  slidesEl.style.transform = `translateX(-${slideIndex * 100}%)`;
+  dots.forEach(d => d.classList.remove('active'));
+  dots[slideIndex].classList.add('active');
 }
-
 function autoSlide() {
-  index++;
-  if (index >= dots.length) index = 0;
-  showSlide(index);
+  slideIndex = (slideIndex + 1) % dots.length;
+  showSlide(slideIndex);
 }
-
 let interval = setInterval(autoSlide, 4000);
+dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+const heroEl = document.querySelector('.hero');
+heroEl.addEventListener('mouseover', () => clearInterval(interval));
+heroEl.addEventListener('mouseout', () => { interval = setInterval(autoSlide, 4000); });
 
-// DOT CLICK
-dots.forEach((dot, i) => {
-  dot.addEventListener('click', () => showSlide(i));
-});
-
-// PAUSE ON HOVER
-document.querySelector('.hero').addEventListener('mouseover', () => {
-  clearInterval(interval);
-});
-
-document.querySelector('.hero').addEventListener('mouseout', () => {
-  interval = setInterval(autoSlide, 4000);
-});
-
-// Scroll-down button: scroll one viewport height on click or Enter/Space
 const scrollBtn = document.querySelector('.scroll-down');
 if (scrollBtn) {
-  const doScroll = () => window.scrollBy({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+  const doScroll = () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
   scrollBtn.addEventListener('click', doScroll);
-  scrollBtn.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') doScroll();
-  });
+  scrollBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') doScroll(); });
 }
 
-// Hamburger / mobile nav
+/* ─── HAMBURGER ──────────────────────────────────────────── */
 const hamburger = document.querySelector('.hamburger');
 const mobileNav = document.querySelector('.mobile-nav');
 const mobileLinks = mobileNav ? mobileNav.querySelectorAll('li') : [];
@@ -625,80 +720,189 @@ if (hamburger && mobileNav) {
     hamburger.setAttribute('aria-expanded', 'false');
     mobileNav.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('no-scroll');
-    // reset delays
-    mobileLinks.forEach(li => li.style.transitionDelay = '0ms');
   };
-
   const openMenu = () => {
     mobileNav.classList.add('open');
     hamburger.classList.add('open');
     hamburger.setAttribute('aria-expanded', 'true');
     mobileNav.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
-    mobileLinks.forEach((li, i) => li.style.transitionDelay = `${40 + i * 70}ms`);
   };
-
-  const toggle = () => (mobileNav.classList.contains('open') ? closeMenu() : openMenu());
-
+  const toggle = () => mobileNav.classList.contains('open') ? closeMenu() : openMenu();
   hamburger.addEventListener('click', toggle);
-  hamburger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') toggle();
-  });
-
-  // close when a mobile link is clicked
   mobileLinks.forEach(li => li.addEventListener('click', closeMenu));
-
-  // close via close button
   if (mobileClose) mobileClose.addEventListener('click', closeMenu);
-
-  // close when clicking on overlay background
-  mobileNav.addEventListener('click', (e) => {
-    if (e.target === mobileNav) closeMenu();
-  });
-
-  // close on escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-  });
+  mobileNav.addEventListener('click', e => { if (e.target === mobileNav) closeMenu(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 }
 
-  /* Loader behavior: show on navigation and while page loads */
-  const loaderOverlay = document.querySelector('.loader-overlay');
-  const showLoader = () => {
-    if (!loaderOverlay) return;
-    loaderOverlay.classList.remove('hidden');
-    document.body.classList.add('loading');
-  };
-  const hideLoader = () => {
-    if (!loaderOverlay) return;
-    loaderOverlay.classList.add('hidden');
-    document.body.classList.remove('loading');
-  };
+/* ─── GSAP: ABOUT SCROLL REVEAL ─────────────────────────── */
+const revealInners = document.querySelectorAll('.reveal-line-inner');
 
-  // hide after initial load
-  window.addEventListener('load', () => setTimeout(hideLoader, 350));
-
-  // show on link navigation (non-hash, same-origin links)
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    const target = a.getAttribute('target');
-    if (!href) return;
-    if (href.startsWith('#')) return;
-    if (href.startsWith('mailto:') || href.startsWith('tel:')) return;
-    if (target === '_blank' || a.hasAttribute('download')) return;
-
-    // allow same-page scroll anchors to proceed
-    if (href.startsWith(window.location.origin) || href.startsWith('/')) {
-      e.preventDefault();
-      showLoader();
-      setTimeout(() => { window.location.href = href; }, 420);
+revealInners.forEach((el) => {
+  gsap.fromTo(el,
+    { y: '110%', opacity: 0 },
+    {
+      y: '0%',
+      opacity: 1,
+      duration: 0.85,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el.closest('.reveal-line') || el,
+        start: 'top 88%',
+        toggleActions: 'play none none none',
+      }
     }
-  });
+  );
+});
 
-  // attempt to show loader on beforeunload/navigation where supported
-  window.addEventListener('beforeunload', () => showLoader());
+/* ─── GSAP: ABOUT IMAGE ENTRANCE ────────────────────────── */
+gsap.fromTo('.about-image',
+  { x: 80, opacity: 0 },
+  {
+    x: 0,
+    opacity: 1,
+    duration: 1.1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '.about-image',
+      start: 'top 85%',
+      toggleActions: 'play none none none',
+    }
+  }
+);
+
+/* ─── GSAP: IMAGE HOVER SWEEP ───────────────────────────── */
+const aboutImage = document.querySelector('.about-image');
+aboutImage.addEventListener('mouseenter', () => {
+  gsap.fromTo(aboutImage, 
+    { '--sweep-x': '-100%' },
+    { duration: 0 }  // reset handled via CSS, trigger via class below
+  );
+  gsap.to(aboutImage, {
+    duration: 0 // handled by CSS keyframe below instead
+  });
+  // Trigger sweep via a short GSAP tween on a pseudo via a real div trick
+  sweepEl.style.left = '-100%';
+  gsap.to(sweepEl, {
+    left: '160%',
+    duration: 1.2,
+    ease: 'power2.out',
+  });
+});
+
+// Create real sweep element since CSS pseudo can't be tweened by GSAP
+const sweepEl = document.createElement('div');
+sweepEl.style.cssText = `
+  position:absolute; top:0; left:-100%; width:55%; height:100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%);
+  transform: skewX(-15deg);
+  pointer-events:none;
+  border-radius:20px;
+  z-index:2;
+`;
+aboutImage.style.position = 'relative';
+aboutImage.appendChild(sweepEl);
+// Remove the CSS ::after since we're using real element
+const styleTag = document.createElement('style');
+styleTag.textContent = '.about-image::after { display: none !important; }';
+document.head.appendChild(styleTag);
+
+/* ─── LEARN MORE EXPAND ─────────────────────────────────── */
+const learnBtn = document.getElementById('learn-more-btn');
+const learnBtnLabel = learnBtn.querySelector('.btn-label');
+const extraText = document.getElementById('about-extra');
+let expanded = false;
+
+learnBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (!expanded) {
+    // Expand
+    gsap.set(extraText, { opacity: 0, maxHeight: 0, marginBottom: 0 });
+    gsap.to(extraText, {
+      maxHeight: 200,
+      opacity: 1,
+      marginBottom: 15,
+      duration: 0.65,
+      ease: 'power2.out',
+    });
+    learnBtnLabel.textContent = 'Read Less';
+    expanded = true;
+    // Refresh ScrollTrigger so new items animate when in view
+    ScrollTrigger.refresh();
+  } else {
+    // Collapse
+    gsap.to(extraText, {
+      maxHeight: 0,
+      opacity: 0,
+      marginBottom: 0,
+      duration: 0.45,
+      ease: 'power2.in',
+    });
+    learnBtnLabel.textContent = 'Read More';
+    expanded = false;
+  }
+});
+
+/* ─── GSAP: PREMIUM LAGGING CURSOR ─────────────────────── */
+const ball = document.querySelector('.cursor-ball');
+const ring = document.querySelector('.cursor-ring');
+
+// Current mouse position
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+// Ball position (tight follow)
+let ballX = mouseX, ballY = mouseY;
+// Ring position (lagged)
+let ringX = mouseX, ringY = mouseY;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+// Animate on every frame
+gsap.ticker.add(() => {
+  // Ball: fast follow with slight lag
+  ballX += (mouseX - ballX) * 0.18;
+  ballY += (mouseY - ballY) * 0.18;
+
+  // Ring: slower, more delayed
+  ringX += (mouseX - ringX) * 0.07;
+  ringY += (mouseY - ringY) * 0.07;
+
+  gsap.set(ball, { x: ballX, y: ballY, xPercent: -50, yPercent: -50 });
+  gsap.set(ring, { x: ringX, y: ringY, xPercent: -50, yPercent: -50 });
+});
+
+// Grow ring on hover over interactive elements
+const interactives = document.querySelectorAll('a, button, .dot, .scroll-down');
+interactives.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    gsap.to(ball, { scale: 2.2, opacity: 0.4, duration: 0.3, ease: 'power2.out' });
+    gsap.to(ring, { scale: 1.7, opacity: 0.25, duration: 0.3, ease: 'power2.out' });
+  });
+  el.addEventListener('mouseleave', () => {
+    gsap.to(ball, { scale: 1, opacity: 0.7, duration: 0.3, ease: 'power2.out' });
+    gsap.to(ring, { scale: 1, opacity: 0.55, duration: 0.3, ease: 'power2.out' });
+  });
+});
+
+// Click ripple burst on ball
+document.addEventListener('mousedown', () => {
+  gsap.to(ball, { scale: 0.6, duration: 0.12, ease: 'power2.in',
+    onComplete: () => gsap.to(ball, { scale: 1, duration: 0.25, ease: 'elastic.out(1.5, 0.4)' })
+  });
+});
+
+// Hide cursors when mouse leaves window
+document.addEventListener('mouseleave', () => {
+  gsap.to([ball, ring], { opacity: 0, duration: 0.3 });
+});
+document.addEventListener('mouseenter', () => {
+  gsap.to([ball, ring], { opacity: 1, duration: 0.3 });
+});
 </script>
 
 </body>
