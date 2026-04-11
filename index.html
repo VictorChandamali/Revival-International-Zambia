@@ -371,9 +371,22 @@ body.loading { overflow: hidden; }
 
 /* About button sizing */
 .about .btn {
-  padding: 10px 18px;
-  font-size: 1rem;
-  border-radius: 22px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  border-radius: 20px;
+}
+
+/* Smaller icon for the about Read More button and align arrow */
+.about .btn .icon svg {
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  transform: none;
+  transition: all 0.2s ease;
+  fill: #111;
 }
 
 /* IMAGE with sweep */
@@ -410,7 +423,7 @@ body.loading { overflow: hidden; }
 }
 
 .about-image:hover img {
-  transform: scale(1.04);
+  transform: scale(1.02);
 }
 
 /* CUSTOM CURSOR */
@@ -643,7 +656,7 @@ body.loading { overflow: hidden; }
     </div>
 
     <div class="about-image">
-      <img src="images/hero/about/about1.jpg" alt="Revival Hub">
+      <img src="images/hero/about/about.jpg" alt="Revival Hub">
     </div>
 
   </div>
